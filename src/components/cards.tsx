@@ -22,6 +22,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { useCardSets } from "@/hooks/useCardSets";
 import useCards from "@/hooks/useCards";
 import { Combobox } from "./ui/combobox";
+import { Search } from "lucide-react";
 
 type CardProps = {
     selectedCards: (null | CardData)[];
@@ -63,7 +64,7 @@ export default function Cards({
         fetchData({ set: selectedSet, name: searchTerm });
     };
     return (
-        <div className='mt-4 grid grid-cols-7 gap-2'>
+        <div className='mt-4 grid grid-cols-4 justify-items-center gap-2'>
             {selectedCards.map((card, index) => (
                 <Dialog
                     key={index}
@@ -73,20 +74,23 @@ export default function Cards({
                     <DialogTrigger asChild>
                         <Button
                             variant='outline'
-                            className='h-[81px] w-[58px] p-0 relative bg-slate-950 bg-opacity-70 hover:bg-slate-700 rounded'
+                            className='h-[105px] w-[80px] p-0 relative bg-gray-500 hover:bg-slate-700 rounded'
                             onClick={() => handleSlotClick(index)}
                         >
                             {card?.imageUrl ? (
                                 <Image
                                     alt='Card image'
                                     src={card.imageUrl}
-                                    width={58}
-                                    height={81}
+                                    width={80}
+                                    height={105}
                                     className='object-cover'
                                 />
                             ) : null}
                             <span
-                                onClick={() => handleClearSlot(index)}
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    handleClearSlot(index);
+                                }}
                                 className={`absolute -top-2 -right-2 py-1 px-2 rounded-full text-white text-xs 
 hover:bg-red-400 bg-red-600
                                     ${card ? "visible" : "invisible"}`}
@@ -105,6 +109,7 @@ hover:bg-red-400 bg-red-600
                                 className='flex items-center gap-2'
                             >
                                 <Input
+                                    className='bg-gray-500'
                                     type='search'
                                     placeholder='Search for a card'
                                     value={searchTerm}
@@ -127,7 +132,9 @@ hover:bg-red-400 bg-red-600
                                 <Button
                                     type='submit'
                                     disabled={cardsQuery.isLoading}
+                                    className="bg-green-700"
                                 >
+                                    <Search className='h-4 w-4 mr-2' />
                                     Search
                                 </Button>
                             </form>
@@ -139,7 +146,7 @@ hover:bg-red-400 bg-red-600
                                         <Button
                                             key={card.id}
                                             variant='ghost'
-                                            className='w-full h-fit gap-5 grid grid-cols-2'
+                                            className='my-2 w-full h-fit gap-5 grid grid-cols-2 bg-gray-500'
                                             onClick={() => selectCard(card)}
                                         >
                                             <div className='w-[58px] h-[81px] bg-slate-400 rounded '>

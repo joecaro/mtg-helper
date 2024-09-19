@@ -43,7 +43,7 @@ export function OpenaiChat() {
             </h2>
             <Card className='mb-4'>
                 <CardContent>
-                    <ScrollArea className='h-[400px] p-4 bg-slate-950 bg-opacity-70 rounded-md'>
+                    <ScrollArea className='h-[400px] p-4 bg-gray-500 rounded-md'>
                         <Chat messages={messages} />
                         {isLoading && (
                             <div className='flex items-center text-gray-500'>
@@ -60,14 +60,19 @@ export function OpenaiChat() {
                     value={input}
                     onChange={e => setInput(e.currentTarget.value)}
                     placeholder='Ask a question or describe an image...'
-                    className='flex-grow bg-slate-950 bg-opacity-70'
+                    className='flex-grow bg-gray-500 placeholder:text-slate-200'
                 />
-                <Button type='submit' disabled={isLoading}>
+                <Button
+                    type='submit'
+                    className='bg-green-700'
+                    disabled={isLoading}
+                >
                     <Send className='mr-2 h-4 w-4' />
                     {isLoading ? "Thinking" : "Send"}
                 </Button>
                 <Button
                     type='button'
+                    className="bg-gray-700"
                     onClick={handleImageGeneration}
                     disabled={isLoading}
                 >

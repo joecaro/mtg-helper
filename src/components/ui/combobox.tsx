@@ -49,7 +49,7 @@ export function Combobox({
                     variant='outline'
                     role='combobox'
                     aria-expanded={open}
-                    className='w-[200px] justify-between'
+                    className='w-[200px] justify-between overflow-auto text-ellipsis bg-gray-500'
                 >
                     {value
                         ? options.find(option => option.value === value)?.label
@@ -59,7 +59,7 @@ export function Combobox({
             </PopoverTrigger>
             <PopoverContent className='w-[200px] p-0 bg-slate-950 bg-opacity-50'>
                 <Input
-                    className='bg-transparent'
+                    className='bg-gray-500'
                     type='text'
                     onChange={e => setSearchTerm(e.currentTarget.value)}
                     value={searchTerm}

@@ -41,7 +41,7 @@ export interface CardData {
 
 export default function useCardSelection() {
     const [selectedCards, setSelectedCards] = useState<(null | CardData)[]>(
-        Array(7).fill(null)
+        Array(8).fill(null)
     );
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [cardSearchTerm, setCardSearchTerm] = useState("");

@@ -1,6 +1,8 @@
 // app/api/cards/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
 import { Card } from "../../../types/mtg";
+import { log } from "console";
 
 const endpoint = "https://api.magicthegathering.io/v1/cards";
 
@@ -84,6 +86,16 @@ export async function GET(req: NextRequest) {
 
     const response = await fetch(`${endpoint}?${queryString}`);
     const data = await response.json();
+
+    if (process.env.NODE_ENV === "development") {
+        const formattedTime = new Date().toLocaleString();
+        const logEntry = `${formattedTime}: request: ${endpoint}?${queryString}\nresponse: ${JSON.stringify(
+            data,
+            null,
+            2
+        )}\n\n`;
+        fs.appendFileSync("log.txt", logEntry);
+    }
 
     // Ensure the response is JSON-serializable
     const cards = (data.cards as Card[]) || [];

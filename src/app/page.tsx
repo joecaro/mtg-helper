@@ -26,7 +26,7 @@ export default function Home() {
                 sizes='100vw'
                 className='object-cover -z-10'
             />
-            <div className='p-4 m-auto container mx-auto max-w-7xl backdrop-blur-sm bg-slate-950 bg-opacity-50'>
+            <div className='p-4 m-auto container mx-auto max-w-7xl backdrop-blur-sm bg-slate-950 bg-opacity-50 rounded-lg'>
                 <h1 className='text-3xl font-bold mb-6 text-center text-slate-50'>
                     Magic: The Gathering
                 </h1>

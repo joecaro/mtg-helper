@@ -45,7 +45,7 @@ export default function Chat({ messages }: { messages: Message[] }) {
         <div
             ref={containerRef}
             onScroll={handleScroll}
-            className='overflow-y-auto h-[400px] p-4 bg-slate-950 bg-opacity-70 rounded-md'
+            className='overflow-y-auto h-[400px] p-4 bg-slate-950 bg-50 rounded-md'
         >
             {messages.map((message, index) => (
                 <div

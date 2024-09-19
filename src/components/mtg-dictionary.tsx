@@ -10,12 +10,12 @@ export function MtgDictionary() {
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
-        <div className='container mx-auto p-4 border-2 flex-1 basis-1/2'>
-            <h2 className='text-2xl font-bold mb-4'>MTG Dictionary</h2>
+        <div className='container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2'>
+            <h2 className='text-3xl font-bold mb-8'>MTG Dictionary</h2>
             <Input
                 type='search'
                 placeholder='Search for a term...'
-                className='mb-6 border-2 bg-slate-950 bg-opacity-70'
+                className='mb-6 bg-gray-500 placeholder:text-slate-200'
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value.toLowerCase())}
             />
@@ -36,9 +36,9 @@ export function MtgDictionary() {
                                                 .toLowerCase()
                                                 .replace(" ", "-")
                                         }
-                                        className='text-foreground bg-slate-950 bg-opacity-70'
+                                        className='text-foreground bg-gray-500 border-none'
                                     >
-                                        <div className='p-4'>
+                                        <div className='p-4 flex flex-col gap-4'>
                                             <CardHeader>
                                                 <CardTitle>
                                                     {term.term}
