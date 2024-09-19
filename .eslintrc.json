@@ -7,7 +7,7 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
-  "plugins": ["@typescript-eslint", "react"],
+  "plugins": ["@typescript-eslint", "react", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -22,7 +22,7 @@
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "no-console": "warn",
-    "eqeqeq": ["error", "always"]
+    "prettier/prettier": ["error"],
   },
   "env": {
     "browser": true,
