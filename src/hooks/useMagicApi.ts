@@ -1,11 +1,7 @@
-// src/hooks/useMagicApi.ts
 import { useState } from "react";
-import { Card } from "../types/mtg";
 import { SearchParams } from "@/app/api/cards/route";
 import { useQuery } from "@tanstack/react-query";
 import { CardData } from "./useCardSelection";
-
-type ApiResponse = Card[];
 
 const useMagicApi = () => {
     const [params, setParams] = useState<SearchParams>({});
