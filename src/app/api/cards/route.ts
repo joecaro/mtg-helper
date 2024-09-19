@@ -80,7 +80,10 @@ export async function GET(req: NextRequest) {
 
 	// Construct the query string for the external API
 	const queryString = Object.entries(params)
-		.filter(([_, value]) => value !== undefined && value !== '')
+		.filter(
+			([_, value]) =>
+				value !== undefined && value !== 'undefined' && value !== ''
+		)
 		.map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
 		.join('&')
 

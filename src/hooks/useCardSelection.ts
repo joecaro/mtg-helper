@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useMagicApi from "./useCards";
+import useMagicApi from "../queries/useCards";
 
 export interface CardData {
     id: string;

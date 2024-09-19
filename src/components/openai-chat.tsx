@@ -9,22 +9,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import { useAiChat } from '@/hooks/useAiChat'
 import Cards from './cards'
-import useCardSelection from '@/hooks/useCardSelection'
 import Chat from './chat'
+import { useChatContext } from '@/context/chat-context'
 
 export function OpenaiChat() {
-	const {
-		selectedCards,
-		isSearchModalOpen,
-		activeSlot,
-		setIsSearchModalOpen,
-		selectCard,
-		handleSlotClick,
-		handleClearSlot,
-	} = useCardSelection()
-
 	const {
 		messages,
 		input,
@@ -32,7 +21,7 @@ export function OpenaiChat() {
 		setInput,
 		handleSubmit,
 		handleImageGeneration,
-	} = useAiChat(selectedCards)
+	} = useChatContext()
 
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">
@@ -73,15 +62,7 @@ export function OpenaiChat() {
 					Generate Image
 				</Button>
 			</form>
-			<Cards
-				selectedCards={selectedCards}
-				isSearchModalOpen={isSearchModalOpen}
-				activeSlot={activeSlot}
-				setIsSearchModalOpen={setIsSearchModalOpen}
-				handleSlotClick={handleSlotClick}
-				handleClearSlot={handleClearSlot}
-				selectCard={selectCard}
-			/>
+			<Cards />
 		</div>
 	)
 }

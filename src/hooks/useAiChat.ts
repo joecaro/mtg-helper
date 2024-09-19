@@ -28,8 +28,6 @@ export function useAiChat(selectedCards: (null | CardData)[]) {
 
     const handleSubmit = useCallback(
         async (e: React.FormEvent) => {
-            console.log(input);
-
             e.preventDefault();
             if (!input.trim()) return;
 
