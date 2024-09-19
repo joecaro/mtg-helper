@@ -11,18 +11,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { useAiChat } from "@/hooks/useAiChat";
-import Markdown from "./markdown";
 import Cards from "./cards";
 import useCardSelection from "@/hooks/useCardSelection";
+import Chat from "./chat";
 
 export function OpenaiChat() {
     const {
         selectedCards,
         isSearchModalOpen,
-        cardSearchTerm,
         activeSlot,
         setIsSearchModalOpen,
-        setCardSearchTerm,
         selectCard,
         handleSlotClick,
         handleClearSlot,
@@ -46,33 +44,7 @@ export function OpenaiChat() {
             <Card className='mb-4'>
                 <CardContent>
                     <ScrollArea className='h-[400px] p-4 bg-slate-950 bg-opacity-70 rounded-md'>
-                        {messages.map((message, index) => (
-                            <div
-                                key={index}
-                                className={`mb-4 ${
-                                    message.role === "assistant"
-                                        ? "text-green-400"
-                                        : "text-slate-50"
-                                }`}
-                            >
-                                <strong>
-                                    {message.role === "assistant"
-                                        ? "AI: "
-                                        : "You: "}
-                                </strong>
-                                {message.type === "text" ? (
-                                    <Markdown markdown={message.content} />
-                                ) : (
-                                    <Image
-                                        alt='Generated image'
-                                        src={message.content}
-                                        width={300}
-                                        height={300}
-                                        className="object-cover rounded-md"
-                                    />
-                                )}
-                            </div>
-                        ))}
+                        <Chat messages={messages} />
                         {isLoading && (
                             <div className='flex items-center text-gray-500'>
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
