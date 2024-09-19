@@ -22,7 +22,7 @@ export function OpenaiChat() {
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">
 			<ReactQueryDevtools initialIsOpen={false} />
-			<h2 className="text-2xl font-bold mb-4">Arcanis the Omnipotent Chat</h2>
+			<h2 className="text-3xl font-bold mb-4">Arcanis the Omnipotent Chat</h2>
 			<Card className="mb-4">
 				<CardContent>
 					<ScrollArea className="h-[400px] p-4 bg-gray-500 rounded-md">

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { CardData } from './useCardSelection'
 
 export type Message = {
@@ -22,8 +22,52 @@ Ask me anything about Magic: The Gathering, whether it’s about **cards, sets, 
 }
 
 export function useAiChat(selectedCards: (null | CardData)[]) {
+	const [streaming, setStreaming] = useState(true)
+	const [latestMessage, setLatestMessage] = useState<Message | null>(
+		firstMessage
+	)
+	const [streamedMessage, setStreamedMessage] = useState<Message | null>(null)
 	const [messages, setMessages] = useState<Message[]>([firstMessage])
 	const [isLoading, setIsLoading] = useState(false)
+	const currentIndex = useRef(0)
+	const currentInterval = useRef<NodeJS.Timeout | null>(null)
+
+	useEffect(() => {
+		if (streaming && latestMessage && !currentInterval.current) {
+			const wordsPerSecond = 3
+			const interval = 1000 / wordsPerSecond
+
+			// Split the latest message content into words
+			const words = latestMessage.content.split(' ')
+			const totalWords = words.length
+			let currentWordIndex = 0
+
+			const intervalId = setInterval(() => {
+				// Increment by 4 words at each interval
+				currentWordIndex += wordsPerSecond
+
+				// Slice the content up to the current word index
+				const currentContent = words.slice(0, currentWordIndex).join(' ')
+
+				// Update the streamed message progressively
+				setStreamedMessage({
+					role: latestMessage.role,
+					content: currentContent,
+					type: latestMessage.type,
+				})
+
+				// When the full message is shown, stop streaming
+				if (currentIndex.current >= latestMessage.content.length) {
+					currentInterval.current && clearInterval(currentInterval.current)
+					currentInterval.current = null
+					setStreaming(false)
+					setLatestMessage(null)
+				}
+			}, interval) // Update every 100ms
+
+			return () => {}
+		}
+	}, [streaming, latestMessage])
 
 	const handleSubmit = useCallback(
 		async (prompt: string) => {
@@ -66,6 +110,12 @@ export function useAiChat(selectedCards: (null | CardData)[]) {
 					...prev,
 					{ role: 'assistant', content: data.message, type: 'text' },
 				])
+				setLatestMessage({
+					role: 'assistant',
+					content: data.message,
+					type: 'text',
+				})
+				setStreaming(true)
 			} catch (error) {
 				console.error('Error:', error)
 				setMessages((prev) => [
@@ -120,6 +170,8 @@ export function useAiChat(selectedCards: (null | CardData)[]) {
 
 	return {
 		messages,
+		streamedMessage,
+		streaming,
 		isLoading,
 		handleSubmit,
 		handleImageGeneration,

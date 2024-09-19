@@ -5,6 +5,8 @@ import { useCardsContext } from './card-context'
 // Define the types for context data
 type ChatContextType = {
 	messages: Message[]
+	streamedMessage: Message | null
+	streaming: boolean
 	isLoading: boolean
 	handleSubmit: (prompt: string) => void
 	handleImageGeneration: (prompt: string) => void
@@ -26,13 +28,21 @@ export const useChatContext = () => {
 export const ChatProvider = ({ children }: { children: ReactNode }) => {
 	const { selectedCards } = useCardsContext()
 
-	const { messages, isLoading, handleSubmit, handleImageGeneration } =
-		useAiChat(selectedCards)
+	const {
+		messages,
+		streamedMessage,
+		streaming,
+		isLoading,
+		handleSubmit,
+		handleImageGeneration,
+	} = useAiChat(selectedCards)
 
 	return (
 		<ChatContext.Provider
 			value={{
 				messages,
+				streamedMessage,
+				streaming,
 				isLoading,
 				handleSubmit,
 				handleImageGeneration,
