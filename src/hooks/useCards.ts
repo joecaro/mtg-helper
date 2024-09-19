@@ -3,7 +3,7 @@ import { SearchParams } from "@/app/api/cards/route";
 import { useQuery } from "@tanstack/react-query";
 import { CardData } from "./useCardSelection";
 
-const useMagicApi = () => {
+export default function useCards() {
     const [params, setParams] = useState<SearchParams>({});
 
     const queryFn = async (params: SearchParams) => {
@@ -18,6 +18,7 @@ const useMagicApi = () => {
     const query = useQuery({
         queryKey: ["cards", params],
         queryFn: () => queryFn(params),
+        enabled: !!params.name || !!params.set,
     });
 
     const fetchData = (params: SearchParams) => {
@@ -25,6 +26,4 @@ const useMagicApi = () => {
     };
 
     return { query, fetchData };
-};
-
-export default useMagicApi;
+}

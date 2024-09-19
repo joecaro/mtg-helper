@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useMagicApi from "./useMagicApi";
+import useMagicApi from "./useCards";
 
 export interface CardData {
     id: string;
@@ -47,19 +47,6 @@ export default function useCardSelection() {
     const [cardSearchTerm, setCardSearchTerm] = useState("");
     const [activeSlot, setActiveSlot] = useState<number | null>(null);
 
-    const { fetchData, query } = useMagicApi();
-
-    const handleCardSearch = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (cardSearchTerm.trim()) {
-            try {
-                await fetchData({ name: cardSearchTerm });
-            } catch (error) {
-                console.error("Error searching for cards:", error);
-            }
-        }
-    };
-
     const selectCard = (card: CardData) => {
         if (activeSlot !== null) {
             const newSelectedCards = [...selectedCards];
@@ -92,11 +79,9 @@ export default function useCardSelection() {
         activeSlot,
         setIsSearchModalOpen,
         setCardSearchTerm,
-        handleCardSearch,
         selectCard,
         handleSlotClick,
         handleClearSlot,
         handleClearAll,
-        query,
     };
 }

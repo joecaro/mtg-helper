@@ -40,12 +40,9 @@ export interface SearchParams {
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
-    const params: SearchParams = {
+    const params = {
         name: searchParams.get("name") || undefined,
         layout: searchParams.get("layout") || undefined,
-        cmc: searchParams.has("cmc")
-            ? Number(searchParams.get("cmc"))
-            : undefined,
         colors: searchParams.get("colors") || undefined,
         colorIdentity: searchParams.get("colorIdentity") || undefined,
         supertypes: searchParams.get("supertypes") || undefined,
@@ -72,8 +69,8 @@ export async function GET(req: NextRequest) {
             : 100,
         orderBy: searchParams.get("orderBy") || undefined,
         random: searchParams.has("random")
-            ? Boolean(searchParams.get("random"))
-            : undefined,
+            ? searchParams.get("random") === "true"
+            : undefined, // Handle random as a Boolean
         contains: searchParams.get("contains") || undefined,
         id: searchParams.get("id") || undefined,
         multiverseid: searchParams.get("multiverseid") || undefined,
@@ -81,14 +78,15 @@ export async function GET(req: NextRequest) {
 
     // Construct the query string for the external API
     const queryString = Object.entries(params)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_, value]) => value !== undefined)
-        .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
+        .filter(([_, value]) => value !== undefined && value !== "")
+        .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
         .join("&");
 
     const response = await fetch(`${endpoint}?${queryString}`);
     const data = await response.json();
 
-    const cards = data.cards as Card[];
+    // Ensure the response is JSON-serializable
+    const cards = (data.cards as Card[]) || [];
+
     return NextResponse.json(cards);
 }

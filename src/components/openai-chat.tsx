@@ -23,11 +23,9 @@ export function OpenaiChat() {
         activeSlot,
         setIsSearchModalOpen,
         setCardSearchTerm,
-        handleCardSearch,
         selectCard,
         handleSlotClick,
         handleClearSlot,
-        query,
     } = useCardSelection();
 
     const {
@@ -112,10 +110,6 @@ export function OpenaiChat() {
                 setIsSearchModalOpen={setIsSearchModalOpen}
                 handleSlotClick={handleSlotClick}
                 handleClearSlot={handleClearSlot}
-                cardSearchTerm={cardSearchTerm}
-                setCardSearchTerm={setCardSearchTerm}
-                handleCardSearch={handleCardSearch}
-                query={query}
                 selectCard={selectCard}
             />
         </div>

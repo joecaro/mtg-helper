@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { FixedSizeList as List } from "react-window";
+
 import { Button } from "./ui/button";
 import {
     Dialog,
@@ -7,11 +9,19 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "./ui/dialog";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import { CardData } from "@/hooks/useCardSelection";
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
+import { useCardSets } from "@/hooks/useCardSets";
+import useCards from "@/hooks/useCards";
+import { Combobox } from "./ui/combobox";
 
 type CardProps = {
     selectedCards: (null | CardData)[];
@@ -20,10 +30,6 @@ type CardProps = {
     setIsSearchModalOpen: Dispatch<boolean>;
     handleSlotClick: (slotIndex: number) => void;
     handleClearSlot: (slotIndex: number) => void;
-    cardSearchTerm: string;
-    setCardSearchTerm: (value: string) => void;
-    handleCardSearch: (e: React.FormEvent) => Promise<void>;
-    query: UseQueryResult<CardData[], Error>;
     selectCard: (card: CardData) => void;
 };
 
@@ -34,12 +40,28 @@ export default function Cards({
     setIsSearchModalOpen,
     handleSlotClick,
     handleClearSlot,
-    cardSearchTerm,
-    setCardSearchTerm,
-    handleCardSearch,
-    query,
     selectCard,
 }: CardProps) {
+    const [selectedSetSearch, setSelectedSetSearch] = useState<
+        string | undefined
+    >("");
+    const [selectedSet, setSelectedSet] = useState<string | undefined>(
+        undefined
+    );
+    const [searchTerm, setSearchTerm] = useState<string>("");
+
+    const setsQuery = useCardSets();
+    const { query: cardsQuery, fetchData } = useCards();
+
+    const handleSetSet = (set: string) => {
+        setSelectedSet(set);
+        setSelectedSetSearch(set);
+    };
+
+    const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        fetchData({ set: selectedSet, name: searchTerm });
+    };
     return (
         <div className='mt-4 grid grid-cols-7 gap-2'>
             {selectedCards.map((card, index) => (
@@ -51,7 +73,7 @@ export default function Cards({
                     <DialogTrigger asChild>
                         <Button
                             variant='outline'
-                            className='h-[81px] w-[58px] p-0 relative rounded-none bg-slate-950 bg-opacity-70 hover:bg-slate-700'
+                            className='h-[81px] w-[58px] p-0 relative bg-slate-950 bg-opacity-70 hover:bg-slate-700 rounded'
                             onClick={() => handleSlotClick(index)}
                         >
                             {card?.imageUrl ? (
@@ -65,8 +87,8 @@ export default function Cards({
                             ) : null}
                             <span
                                 onClick={() => handleClearSlot(index)}
-                                className={`absolute top-0 right-0 p-1 rounded-full text-white text-xs 
-                                         bg-red-600
+                                className={`absolute -top-2 -right-2 py-1 px-2 rounded-full text-white text-xs 
+hover:bg-red-400 bg-red-600
                                     ${card ? "visible" : "invisible"}`}
                             >
                                 {card ? "X" : "+"}
@@ -79,43 +101,55 @@ export default function Cards({
                         </DialogHeader>
                         <div className='grid gap-4 py-4'>
                             <form
-                                onSubmit={handleCardSearch}
+                                onSubmit={handleSearchSubmit}
                                 className='flex items-center gap-2'
                             >
                                 <Input
-                                    type='text'
-                                    placeholder='Card name'
-                                    value={cardSearchTerm}
+                                    type='search'
+                                    placeholder='Search for a card'
+                                    value={searchTerm}
                                     onChange={e =>
-                                        setCardSearchTerm(e.target.value)
+                                        setSearchTerm(e.target.value)
                                     }
+                                />
+                                <Combobox
+                                    options={
+                                        setsQuery.data?.map(set => ({
+                                            label: set.name,
+                                            value: set.code,
+                                            icon: set.icon_svg_uri,
+                                            number: set.card_count,
+                                        })) || []
+                                    }
+                                    value={selectedSetSearch || ""}
+                                    setValue={handleSetSet}
                                 />
                                 <Button
                                     type='submit'
-                                    disabled={query.isLoading}
+                                    disabled={cardsQuery.isLoading}
                                 >
                                     Search
                                 </Button>
                             </form>
                             <ScrollArea className='h-[300px]'>
-                                {query.error ? (
-                                    <p>{query.error.message}</p>
+                                {cardsQuery.error ? (
+                                    <p>{cardsQuery.error.message}</p>
                                 ) : (
-                                    query.data?.map(card => (
+                                    cardsQuery.data?.map(card => (
                                         <Button
                                             key={card.id}
                                             variant='ghost'
                                             className='w-full h-fit gap-5 grid grid-cols-2'
                                             onClick={() => selectCard(card)}
                                         >
-                                            <div className='w-[58px] h-[81px] bg-slate-400 '>
+                                            <div className='w-[58px] h-[81px] bg-slate-400 rounded '>
                                                 {card.imageUrl ? (
                                                     <Image
                                                         alt='Card image'
                                                         src={card.imageUrl}
                                                         width={58}
                                                         height={81}
-                                                        className='object-cover'
+                                                        className='object-cover rounded'
                                                     />
                                                 ) : null}
                                             </div>
