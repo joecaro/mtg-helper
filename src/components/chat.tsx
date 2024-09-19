@@ -30,7 +30,7 @@ export default function Chat({ messages }: { messages: Message[] }) {
         if (isUserAtBottom && containerRef.current) {
             containerRef.current.scrollTop = containerRef.current.scrollHeight;
         }
-    }, [messages]);
+    }, [messages, isUserAtBottom]);
 
     // Check if the user is at the bottom
     const handleScroll = () => {

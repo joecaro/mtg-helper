@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Loader2, Send, Image as ImageIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -72,7 +71,7 @@ export function OpenaiChat() {
                 </Button>
                 <Button
                     type='button'
-                    className="bg-gray-700"
+                    className='bg-gray-700'
                     onClick={handleImageGeneration}
                     disabled={isLoading}
                 >

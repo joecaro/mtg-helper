@@ -13,8 +13,6 @@ export default function Home() {
     const password = cookieStore.get("password");
     const correctPassword = process.env.SUPER_SECRET_PASSWORD;
 
-    console.log(password);
-
     return (
         <div className='flex justify-center items-center w-screen h-screen'>
             <Image

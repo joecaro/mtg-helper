@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { FixedSizeList as List } from "react-window";
 
 import { Button } from "./ui/button";
 import {
@@ -9,16 +8,10 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "./ui/dialog";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import { CardData } from "@/hooks/useCardSelection";
 import { Dispatch, useState } from "react";
-import { UseQueryResult } from "@tanstack/react-query";
 import { useCardSets } from "@/hooks/useCardSets";
 import useCards from "@/hooks/useCards";
 import { Combobox } from "./ui/combobox";
