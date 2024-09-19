@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Loader2, Send, Image as ImageIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -14,14 +15,9 @@ import Chat from './chat'
 import { useChatContext } from '@/context/chat-context'
 
 export function OpenaiChat() {
-	const {
-		messages,
-		input,
-		isLoading,
-		setInput,
-		handleSubmit,
-		handleImageGeneration,
-	} = useChatContext()
+	const [input, setInput] = useState('')
+	const { messages, isLoading, handleSubmit, handleImageGeneration } =
+		useChatContext()
 
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">
@@ -30,17 +26,18 @@ export function OpenaiChat() {
 			<Card className="mb-4">
 				<CardContent>
 					<ScrollArea className="h-[400px] p-4 bg-gray-500 rounded-md">
-						<Chat messages={messages} />
-						{isLoading && (
-							<div className="flex items-center text-gray-500">
-								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-								Thinking...
-							</div>
-						)}
+						<Chat />
 					</ScrollArea>
 				</CardContent>
 			</Card>
-			<form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+			<form
+				onSubmit={(e) => {
+					e.preventDefault()
+					handleSubmit(input)
+					setInput('')
+				}}
+				className="flex gap-2 mb-4"
+			>
 				<Input
 					type="text"
 					value={input}
@@ -55,7 +52,11 @@ export function OpenaiChat() {
 				<Button
 					type="button"
 					className="bg-gray-700"
-					onClick={handleImageGeneration}
+					onClick={(e) => {
+						e.preventDefault()
+						handleImageGeneration(input)
+						setInput('')
+					}}
 					disabled={isLoading}
 				>
 					<ImageIcon className="mr-2 h-4 w-4" />

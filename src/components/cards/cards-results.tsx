@@ -3,6 +3,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import useCards from '@/queries/useCards'
 import { Button } from '../ui/button'
 import Image from 'next/image'
+import { Skeleton } from '../ui/skeleton'
 
 export default function CardsResults({
 	cardsQuery,
@@ -15,6 +16,13 @@ export default function CardsResults({
 		<ScrollArea className="h-[300px]">
 			{cardsQuery.error ? (
 				<p>{cardsQuery.error.message}</p>
+			) : cardsQuery.isLoading ? (
+				<>
+					<Skeleton className="h-24 my-2 w-full" />
+					<Skeleton className="h-24 my-2 w-full" />
+					<Skeleton className="h-24 my-2 w-full" />
+					<Skeleton className="h-24 my-2w-full" />
+				</>
 			) : (
 				cardsQuery.data?.map((card) => (
 					<Button

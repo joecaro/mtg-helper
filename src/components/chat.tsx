@@ -5,9 +5,12 @@ import ReactMarkdown from 'react-markdown'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import { Message } from '@/hooks/useAiChat'
+import { useChatContext } from '@/context/chat-context'
+import { Loader2 } from 'lucide-react'
 
-export default function Chat({ messages }: { messages: Message[] }) {
+export default function Chat() {
+	const { messages, isLoading } = useChatContext()
+
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [expandedSections, setExpandedSections] = useState<Set<number>>(
 		new Set()
@@ -44,7 +47,7 @@ export default function Chat({ messages }: { messages: Message[] }) {
 		<div
 			ref={containerRef}
 			onScroll={handleScroll}
-			className="overflow-y-auto h-[400px] p-4 bg-slate-950 bg-50 rounded-md"
+			className="overflow-y-auto h-[400px] p-4 bg-slate-950 bg-50 rounded-md scroll-smooth"
 		>
 			{messages.map((message, index) => (
 				<div
@@ -96,6 +99,12 @@ export default function Chat({ messages }: { messages: Message[] }) {
 					)}
 				</div>
 			))}
+			{isLoading && (
+				<div className="flex items-center text-gray-500">
+					<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+					Thinking...
+				</div>
+			)}
 		</div>
 	)
 }
