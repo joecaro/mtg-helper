@@ -5,8 +5,7 @@ import { useCardsContext } from './card-context'
 // Define the types for context data
 type ChatContextType = {
 	messages: Message[]
-	streamedMessage: Message | null
-	streaming: boolean
+	latestMessage: Message | null
 	isLoading: boolean
 	handleSubmit: (prompt: string) => void
 	handleImageGeneration: (prompt: string) => void
@@ -30,8 +29,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
 
 	const {
 		messages,
-		streamedMessage,
-		streaming,
+		latestMessage,
 		isLoading,
 		handleSubmit,
 		handleImageGeneration,
@@ -41,8 +39,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
 		<ChatContext.Provider
 			value={{
 				messages,
-				streamedMessage,
-				streaming,
+				latestMessage,
 				isLoading,
 				handleSubmit,
 				handleImageGeneration,

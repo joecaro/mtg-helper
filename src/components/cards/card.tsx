@@ -20,29 +20,21 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { useChatContext } from '@/context/chat-context'
+import { toast } from 'sonner'
 
 import {
-	Badge,
-	Book,
 	Box,
 	Briefcase,
 	Diamond,
 	Expand,
-	Gem,
-	Package2,
-	PersonStandingIcon,
 	Shield,
-	Sparkles,
 	Star,
-	Swords,
-	Tag,
 	Trash,
 	Type,
-	TypeOutline,
 	Users,
 	Zap,
 } from 'lucide-react'
-import { Fragment, PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import { cn } from '@/lib/utils'
 import {
 	Dialog,
@@ -74,6 +66,7 @@ export default function Card({
 				variant="outline"
 				className="h-[105px] w-[80px] p-0 relative bg-gray-500 hover:bg-slate-700"
 				onClick={() => handleSlotClick(index)}
+				title="Right click for more options"
 			>
 				{card?.imageUrl ? (
 					<Image
@@ -129,7 +122,7 @@ export function CardContextMenu({
 					</DialogTrigger>
 					<ContextMenuSeparator />
 					<ContextMenuSub>
-						<ContextMenuSubTrigger inset>Chat Tools</ContextMenuSubTrigger>
+						<ContextMenuSubTrigger inset>Quick Chat</ContextMenuSubTrigger>
 						<ContextMenuSubContent className="w-48">
 							<ContextMenuItem onClick={(e) => handleQuickChat(e, 'details')}>
 								Get Card Details
@@ -147,6 +140,7 @@ export function CardContextMenu({
 					<ContextMenuItem
 						onClick={() => {
 							navigator.clipboard.writeText(card.imageUrl || '')
+							toast.success('Card link copied to clipboard')
 						}}
 					>
 						Share Card
@@ -154,6 +148,7 @@ export function CardContextMenu({
 					<ContextMenuItem
 						onClick={() => {
 							navigator.clipboard.writeText(JSON.stringify(card) || '')
+							toast.success('Card details copied to clipboard')
 						}}
 					>
 						Copy Card

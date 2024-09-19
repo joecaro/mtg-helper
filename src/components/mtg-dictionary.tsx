@@ -11,7 +11,7 @@ export function MtgDictionary() {
 
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">
-			<h2 className="text-3xl font-bold mb-8">MTG Dictionary</h2>
+			<h2 className="text-3xl font-bold mb-4">MTG Dictionary</h2>
 			<Input
 				type="search"
 				placeholder="Search for a term..."
@@ -19,7 +19,7 @@ export function MtgDictionary() {
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
 			/>
-			<ScrollArea className="h-[600px] rounded-md ">
+			<ScrollArea className="h-[650px] rounded-md ">
 				<div className="space-y-4">
 					{mtgGlossary.map((section) => (
 						<div key={section.title} className="space-y-4">

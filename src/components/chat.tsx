@@ -8,9 +8,10 @@ import remarkGfm from 'remark-gfm'
 import { useChatContext } from '@/context/chat-context'
 import { Loader2 } from 'lucide-react'
 import { Message } from '@/hooks/useAiChat'
+import useScrollText from '@/hooks/useScrollText'
 
 export default function Chat() {
-	const { messages, streamedMessage, streaming, isLoading } = useChatContext()
+	const { messages, latestMessage, isLoading } = useChatContext()
 
 	const containerRef = useRef<HTMLDivElement>(null)
 
@@ -27,7 +28,7 @@ export default function Chat() {
 				})
 			})
 		}
-	}, [streamedMessage, isUserAtBottom])
+	}, [latestMessage, isUserAtBottom])
 
 	// Check if the user is at the bottom
 	const handleScroll = () => {
@@ -36,19 +37,20 @@ export default function Chat() {
 			setIsUserAtBottom(scrollTop + clientHeight >= scrollHeight - 5)
 		}
 	}
+
+	console.log('messages', messages)
+	console.log('latest', latestMessage)
+
 	return (
 		<div
 			ref={containerRef}
 			onScroll={handleScroll}
-			className="overflow-y-auto h-[400px] p-4 bg-slate-950 bg-50 rounded-md"
+			className="overflow-y-auto h-full p-4 bg-50 rounded-md"
 		>
-			{messages.map((message, index) =>
-				index === messages.length - 1 && streaming && streamedMessage ? (
-					<MarkedDown message={streamedMessage} index={index} />
-				) : (
-					<MarkedDown message={message} index={index} />
-				)
-			)}
+			{messages.map((message, index) => (
+				<MarkedDown message={message} key={'message' + index} />
+			))}
+			{latestMessage && <MarkedDown scroll message={latestMessage} />}
 			{isLoading && (
 				<div className="flex items-center text-gray-500">
 					<Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -59,7 +61,15 @@ export default function Chat() {
 	)
 }
 
-function MarkedDown({ message }: { message: Message; index: number }) {
+function MarkedDown({
+	message,
+	scroll = false,
+}: {
+	message: Message
+	scroll?: boolean
+}) {
+	const { typedContent } = useScrollText(message, scroll)
+
 	return (
 		<div
 			key={message.role + message.content}
@@ -69,13 +79,20 @@ function MarkedDown({ message }: { message: Message; index: number }) {
 		>
 			<strong>{message.role === 'assistant' ? 'AI: ' : 'You: '}</strong>
 			{message.type === 'text' ? (
-				<ReactMarkdown
-					key={message.content}
-					rehypePlugins={[rehypeSlug]}
-					remarkPlugins={[remarkGfm]}
-				>
-					{message.content}
-				</ReactMarkdown>
+				<>
+					{typedContent.map((string) => (
+						<ReactMarkdown
+							key={string}
+							rehypePlugins={[rehypeSlug]}
+							remarkPlugins={[remarkGfm]}
+							components={{
+								br: () => <br className="block" />,
+							}}
+						>
+							{string}
+						</ReactMarkdown>
+					))}
+				</>
 			) : (
 				<Image
 					alt="Generated image"
