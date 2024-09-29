@@ -15,9 +15,7 @@ import Card from './card'
 import SearchFilters from './search-filters'
 import CardsResults from './cards-results'
 
-type CardProps = {}
-
-export default function Cards({}: CardProps) {
+export default function Cards() {
 	const {
 		selectedCards,
 		selectCard,

@@ -16,8 +16,7 @@ import { useChatContext } from '@/context/chat-context'
 
 export function OpenaiChat() {
 	const [input, setInput] = useState('')
-	const { isLoading, handleSubmit, handleImageGeneration } =
-		useChatContext()
+	const { isLoading, handleSubmit, handleImageGeneration } = useChatContext()
 
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">

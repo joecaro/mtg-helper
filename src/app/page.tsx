@@ -14,7 +14,7 @@ export default function Home() {
 	const correctPassword = process.env.SUPER_SECRET_PASSWORD
 
 	return (
-		<div className="flex justify-center items-center w-screen h-screen">
+		<div className="flex justify-center items-center w-screen h-screen text-neutral-50">
 			<Image
 				src={backgroundImg}
 				alt="Magic: The Gathering"

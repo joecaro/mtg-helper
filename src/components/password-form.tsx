@@ -28,6 +28,7 @@ export default function PasswordForm() {
 
 	return (
 		<div className="container mx-auto p-4 border-2 rounded-md flex-1 basis-1/2">
+			<h2 className="text-3xl font-bold mb-4">Arcanis the Omnipotent Chat</h2>
 			<form
 				className="flex flex-col bg-gray-500 p-5 border-2 rounded-md"
 				onSubmit={handleSubmit}
@@ -35,7 +36,7 @@ export default function PasswordForm() {
 				<label>
 					Chat Password
 					<Input
-						className="placeholder:text-slate-200"
+						className="placeholder:text-slate-200 bg-gray-400"
 						type="password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}

@@ -32,7 +32,7 @@ export function MtgDictionary() {
 											'glossary-term-' +
 											term.term.toLowerCase().replace(' ', '-')
 										}
-										className="text-foreground bg-gray-500 border-none"
+										className="text-foreground bg-gray-500 text-neutral-50 border-none"
 									>
 										<div className="p-4 flex flex-col gap-4">
 											<CardHeader>
