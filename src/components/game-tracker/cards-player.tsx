@@ -43,7 +43,7 @@ export default function PlayerCards({
 	return (
 		<div className="space-y-4">
 			<h3 className="text-xl font-semibold">Cards</h3>
-			<div className="flex flex-wrap overflow-y-auto h-96">
+			<div className="flex flex-wrap overflow-y-auto h-64 sm:h-96">
 				{playerCards.map((card, cardIdx) => (
 					<CardEditor
 						key={card.name + cardIdx}
