@@ -3,22 +3,15 @@
 import { Button } from '@/components/ui/button'
 import { ManaPool } from './types'
 import { Minus, Plus } from 'lucide-react'
+import { useGameState } from './player-state'
+import { useMemo } from 'react'
 
-const ManaPoolUI = ({
-	playerIndex,
-	manaPool,
-	updateMana,
-	clearManaPool,
-}: {
-	playerIndex: number
-	manaPool: ManaPool
-	updateMana: (
-		playerIndex: number,
-		color: keyof ManaPool,
-		change: number
-	) => void
-	clearManaPool: (playerIndex: number) => void
-}) => {
+const ManaPoolUI = ({ playerIndex }: { playerIndex: number }) => {
+	const { players, updateMana, clearManaPool } = useGameState()
+	const manaPool = useMemo(
+		() => players[playerIndex].manaPool,
+		[players, playerIndex]
+	)
 	const manaColors: (keyof ManaPool)[] = [
 		'white',
 		'blue',

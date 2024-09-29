@@ -9,8 +9,10 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
+import { useGameState } from './player-state'
 
-const Settings = ({ setPlayers }: { setPlayers: (num: 2 | 4) => void }) => {
+const Settings = () => {
+	const { setNumPlayers } = useGameState()
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 	return (
 		<Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
@@ -21,8 +23,8 @@ const Settings = ({ setPlayers }: { setPlayers: (num: 2 | 4) => void }) => {
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 					<p>Number of players</p>
-					<Button onClick={() => setPlayers(2)}>2 Players</Button>
-					<Button onClick={() => setPlayers(4)}>4 Players</Button>
+					<Button onClick={() => setNumPlayers(2)}>2 Players</Button>
+					<Button onClick={() => setNumPlayers(4)}>4 Players</Button>
 				</DialogHeader>
 			</DialogContent>
 		</Dialog>

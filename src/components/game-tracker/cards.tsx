@@ -10,6 +10,8 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '../ui/input'
+import { useGameState } from './player-state'
+import PlayerCards from './cards-player'
 
 // Types
 interface Card {
@@ -24,14 +26,8 @@ interface Player {
 	cards: Card[]
 }
 
-// Cards component
-const Cards = ({
-	players,
-	updateCard,
-}: {
-	players: Player[]
-	updateCard: (card: Card, cardIndex: number, playerIndex: number) => void
-}) => {
+const Cards = () => {
+	const { players, updateCard } = useGameState()
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
 	return (
@@ -42,35 +38,17 @@ const Cards = ({
 			<DialogContent className="">
 				<DialogHeader>
 					<DialogTitle>Player Cards</DialogTitle>
-					{/* {players.map((player, playerIndex) => (
-						<div key={player.name} className="mb-8">
-							<h3 className="text-xl font-semibold">{player.name}'s Cards</h3>
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-								{player.cards.map((card, cardIndex) => (
-									<Card
-										key={player.name + card.name + cardIndex}
-										card={card}
-										index={cardIndex}
-										updateCard={(updatedCard: Card, index: number) =>
-											updateCard(updatedCard, index, playerIndex)
-										}
-									/>
-								))}
-								<Button
-									onClick={() =>
-										updateCard(
-											{ name: '', power: 0, defense: 0, statuses: [] },
-											player.cards.length,
-											playerIndex
-										)
-									}
-								>
-									Add Card
-								</Button>
-							</div>
+					{players.map((player, playerIndex) => (
+						<div
+							key={player.name + playerIndex}
+							className={` ${(players.length === 4 ? playerIndex < 2 : playerIndex % 2 === 0) ? 'transform rotate-180' : ''}`}
+						>
+							<PlayerCards
+								key={player.name + playerIndex}
+								playerIndex={playerIndex}
+							/>
 						</div>
-					))} */}
-					<div>NOT IMPLEMENTED YET</div>
+					))}
 				</DialogHeader>
 			</DialogContent>
 		</Dialog>
