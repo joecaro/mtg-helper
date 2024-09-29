@@ -5,19 +5,35 @@ Welcome to **MTG Help Me**, an innovative application designed to enhance your M
 ## Key Features
 
 ### 1. AI-Powered Chat
+
 Our AI-powered chat, **Arcanis the Omnipotent Chat**, is your go-to resource for all things MTG. Powered by OpenAI's GPT-4, this chat can answer your questions, provide deck-building advice, and even generate creative content related to the game. Simply type your query, and let Arcanis guide you through the vast world of Magic.
 
 ### 2. Image Generation
+
 Ever wanted to visualize a custom card or a scene from your MTG adventures? With our image generation feature, you can describe an image, and our AI will create it for you. This feature leverages the power of OpenAI's DALL-E model to bring your ideas to life.
 
 ### 3. Comprehensive MTG Dictionary
+
 The **MtgDictionary** component provides detailed information about MTG cards, mechanics, and lore. Whether you're looking up a card's abilities or exploring the history of a particular set, our dictionary has you covered.
 
 ### 4. Secure Access
+
 We understand the importance of privacy and security. MTG Help Me includes a password-protected section to ensure that your sensitive information remains safe. Only users with the correct password can access this protected content.
 
 ### 5. Responsive Design
+
 Our application is designed to be fully responsive, ensuring a seamless experience across all devices. Whether you're on a desktop, tablet, or smartphone, MTG Help Me adapts to provide the best user experience.
+
+### 6. Game Stats Tracker
+
+Track your game stats with ease using our Game Stats Tracker. This feature allows players to monitor health, mana pool, tokens, and card statuses throughout the game. With an intuitive interface and real-time updates, players can focus on strategy while the app takes care of tracking.
+
+    • Health Tracker: Adjust player health with a simple tap, and see changes reflected instantly.
+    • Mana Pool Manager: Manage your mana pool, adding or subtracting mana of any color as needed. Easily reset or adjust for turn-based strategies.
+    • Token Control: Add, remove, and adjust tokens with flexible controls, keeping track of counters and special effects during gameplay.
+    • Card Status and Power Tracker: Track the power, defense, and status of your cards directly within the app, ensuring no misplays or forgotten effects.
+
+    find this in app/game/page.tsx -> /components/game-tracker
 
 ## Getting Started
 
