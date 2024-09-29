@@ -14,6 +14,7 @@ export interface ManaPool {
 }
 
 export interface Card {
+	id: number
 	name: string
 	power: number
 	defense: number

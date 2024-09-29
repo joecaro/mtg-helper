@@ -17,8 +17,10 @@ const PlayerUI = ({
 }) => {
 	const { updateHealth } = useGameState()
 	return (
-		<div className={`flex-1 p-4 ${isFlipped ? 'transform rotate-180' : ''}`}>
-			<h2 className="text-2xl font-bold mb-4">{player.name}</h2>
+		<div
+			className={`p-4 flex flex-col max-h-full ${isFlipped ? 'transform rotate-180' : ''}`}
+		>
+			<h2 className="text-2xl font-bold hidden sm:block">{player.name}</h2>
 			<div className="relative">
 				<div className="text-6xl font-bold mb-6 text-center p-4 bg-primary text-primary-foreground rounded-lg cursor-pointer">
 					{player.health}

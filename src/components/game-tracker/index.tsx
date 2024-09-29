@@ -10,7 +10,7 @@ export default function MTGHelper(): JSX.Element {
 
 	return (
 		<div
-			className={`grid ${players.length === 4 && 'grid-cols-2'} h-screen bg-background text-foreground`}
+			className={`grid ${players.length === 4 && 'grid-cols-2'} grid-rows-[1fr_1fr] h-screen max-h-screen overflow-hidden`}
 		>
 			{players.map((player, index) => (
 				<PlayerUI

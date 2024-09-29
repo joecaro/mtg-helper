@@ -38,9 +38,6 @@ export default function Chat() {
 		}
 	}
 
-	console.log('messages', messages)
-	console.log('latest', latestMessage)
-
 	return (
 		<div
 			ref={containerRef}

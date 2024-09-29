@@ -1,35 +1,7 @@
 'use client'
 
 import { createContext, useContext, useReducer } from 'react'
-
-interface Token {
-	name: string
-	count: number
-}
-
-interface ManaPool {
-	white: number
-	blue: number
-	black: number
-	red: number
-	green: number
-	colorless: number
-}
-
-interface Card {
-	name: string
-	power: number
-	defense: number
-	statuses: string[]
-}
-
-interface Player {
-	name: string
-	health: number
-	tokens: Token[]
-	manaPool: ManaPool
-	cards: Card[]
-}
+import { Card, ManaPool, Player } from './types'
 
 const initialManaPool: ManaPool = {
 	white: 0,
@@ -57,7 +29,7 @@ type PlayerAction =
 			change: number
 	  }
 	| { type: 'ADD_TOKEN'; playerIndex: number; tokenName: string }
-	| { type: 'UPDATE_CARD'; card: Card; cardIndex: number; playerIndex: number }
+	| { type: 'UPDATE_CARD'; card: Card; playerIndex: number }
 	| { type: 'ADD_CARD'; playerIndex: number; card: Card }
 
 const playerReducer = (state: Player[], action: PlayerAction): Player[] => {
@@ -130,12 +102,9 @@ const playerReducer = (state: Player[], action: PlayerAction): Player[] => {
 				index === action.playerIndex
 					? {
 							...player,
-							cards:
-								action.cardIndex > player.cards.length - 1
-									? [...player.cards, action.card]
-									: player.cards.map((c, cIndex) =>
-											cIndex === action.cardIndex ? action.card : c
-										),
+							cards: player.cards.map((c) =>
+								c.id === action.card.id ? action.card : c
+							),
 						}
 					: player
 			)
@@ -189,17 +158,13 @@ export function usePlayerState(initialPlayers: Player[]) {
 		dispatch({ type: 'ADD_TOKEN', playerIndex, tokenName })
 	}
 
-	const updateCard = (
-		playerIndex: number,
-		card: Card,
-		cardIndex: number | null
-	) => {
-		if (cardIndex === null) {
-			dispatch({ type: 'ADD_CARD', playerIndex, card })
-			return
-		}
+	const updateCard = (playerIndex: number, card: Card) => {
+		dispatch({ type: 'UPDATE_CARD', playerIndex, card })
+	}
 
-		dispatch({ type: 'UPDATE_CARD', playerIndex, card, cardIndex })
+	const addCard = (playerIndex: number, card: Card) => {
+		const randomId = Math.floor(Math.random() * 100000)
+		dispatch({ type: 'ADD_CARD', playerIndex, card: { ...card, id: randomId } })
 	}
 
 	const setNumPlayers = (numPlayers: number) => {
@@ -226,6 +191,7 @@ export function usePlayerState(initialPlayers: Player[]) {
 		clearManaPool,
 		updateTokenCount,
 		addToken,
+		addCard,
 		updateCard,
 		setNumPlayers,
 	}
@@ -239,6 +205,7 @@ const GameStateContext = createContext<ReturnType<typeof usePlayerState>>({
 	clearManaPool: () => {},
 	updateTokenCount: () => {},
 	addToken: () => {},
+	addCard: () => {},
 	updateCard: () => {},
 	setNumPlayers: () => {},
 })
@@ -264,8 +231,6 @@ const GameStateProvider = ({ children }: { children: React.ReactNode }) => {
 	]
 
 	const gameState = usePlayerState(initialPlayers)
-
-	console.log('gameState', gameState)
 
 	return (
 		<GameStateContext.Provider value={gameState}>

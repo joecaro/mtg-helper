@@ -30,7 +30,6 @@ export default function useScrollText(message: Message, scroll: boolean) {
 		const sentenceParts = message.content
 			.split(sentenceOrNewline)
 			.filter(Boolean)
-		console.log(sentenceParts)
 
 		// Initialize typing effect only if scrolling
 		if (scroll && message.type === 'text') {

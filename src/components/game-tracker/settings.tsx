@@ -17,7 +17,9 @@ const Settings = () => {
 	return (
 		<Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
 			<DialogTrigger asChild>
-				<Button className="absolute bottom-4 right-4 p-2">⚙️ Settings</Button>
+				<Button className="absolute bottom-4 right-4 p-2 hidden sm:block">
+					⚙️ Settings
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>

@@ -11,7 +11,6 @@ export async function POST(req: Request) {
 			model: 'dall-e-3',
 		})
 
-		console.log(image.data[0].url)
 		return NextResponse.json({
 			imageUrl: image.data[0].url,
 			response: image,
